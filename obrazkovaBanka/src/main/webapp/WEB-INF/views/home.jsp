@@ -4,8 +4,8 @@
 	<title>Home</title>
 </head>
 <jsp:include page="/WEB-INF/views/include/headerFullHeader.jsp"></jsp:include>
-<link href="resources/css/dropzone.css" type="text/css" rel="stylesheet" />
-<script src="resources/js/myuploadfunction.js"></script>
+<link href="/obrazkovaBanka/resources/css/dropzone.css" type="text/css" rel="stylesheet" />
+<script src="/obrazkovaBanka/resources/js/myuploadfunction.js"></script>
 <body>
 	<div class="container container-menu">
 		<div class="header clearfix">

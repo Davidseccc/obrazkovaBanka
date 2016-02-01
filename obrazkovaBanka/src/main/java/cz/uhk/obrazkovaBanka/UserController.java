@@ -98,7 +98,7 @@ public class UserController {
 			session.setAttribute("loggedInUser", u.getNickName());
 			System.out.println("Session Saved " + session.getAttribute("loggedInUser").toString());
 			mod.put("user", u);
-		return "redirect:/user/" + u.getNickName();
+		return "home";
 		}
 	}
 	
