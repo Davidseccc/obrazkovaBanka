@@ -20,8 +20,8 @@
 				<li><a href="/obrazkovaBanka/user/${loggedInUser}/images">Images</a></li>
 				<li><a href="/obrazkovaBanka/user/${loggedInUser}/comments">Comments</a></li>
 				<c:if test="${loggedInUserRole == 'ROLE_ADMIN'}">
-					<li><a href="/obrazkovaBanka/user/show?all">All users</a></li>
-					<li class="active"><a href="/obrazkovaBanka/category/show?all">Manage
+					<li class="active"><a href="/obrazkovaBanka/user/show?all">All users</a></li>
+					<li><a href="/obrazkovaBanka/category/show?all">Manage
 							categories</a></li>
 				</c:if>
 			</ul>
@@ -29,7 +29,8 @@
 		</div>
 	</div>
 
-	<div class="center-block" style="width: 500px; padding: 20px;">
+
+	<div class="center-block" style="width: 800px; padding: 20px;">
 		<jsp:include page="/WEB-INF/views/include/messages.jsp"></jsp:include>
 
 		<table class="table table-striped">
@@ -37,46 +38,43 @@
 				<tr>
 					<th>Id</th>
 					<th>Name</th>
-					<th>Images</th>
-					<th>Edit</th>
+					<th>Email</th>
+					<th>Last visit date</th>
+					<th>User Role <a href="/obrazkovaBanka/role/show?all">Info</a></th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${categoryList}" var="category">
-					<form action="save?id=${category.id}" method="POST">
-					<tr>
-						<td>${category.id}</td>
-						<td><input type="text" name="name" id="name"
-							value="${category.name}" /></td>
-						<td></td>
-						<td><button type="submit" class="btn-link glyphicon glyphicon-floppy-saved"></button></td>
-					</tr>
+				<c:forEach items="${userList}" var="user">
+					<form action="saveRole?id=${user.id}" method="POST">
+						<tr>
+							<td>${user.id}</td>
+							<td>${user.nickName}</td>
+							<td>${user.email}</td>
+							<td>${user.lastVisit == null ? '< never >' : user.lastVisit.toGMTString()}</td>
+							<td><select name="role" id="role">
+									<c:forEach items="${roleList}" var="role">
+										<option
+											${user.role.name == role.name ? 'selected="selected"' : ''}
+											value="${role.id }">${role.name}</option>
+									</c:forEach>
+							</select></td>
+							<td><button type="submit"
+									class="btn-link glyphicon glyphicon-floppy-saved"></button></td>
+						</tr>
 					</form>
 					<ul>
 					</ul>
 				</c:forEach>
 			</tbody>
 		</table>
-
-		<button type="button" style="margin: 0px auto;" id="myButton"
-			data-loading-text="Loading..." class="glyphicon-plus btn btn-success center-block"
-			autocomplete="off"> Add new</button>
-
-		<div id="comments" style="display: none">
-			<form action="addNew" method="POST">
-				<div class="pull-right col-lg-8" style="padding:20px" >
-					<div class="input-group">
-						<input type="text" name="name" id="name" class="form-control"
-							placeholder="Enter category name"> <span
-							class="input-group-btn">
-							<button class="btn btn-default" type="submit">Save</button>
-						</span>
-					</div>
-					<!-- /input-group -->
-				</div>
-				<!-- /.col-lg-6 -->
-			</form>
-		</div>
 	</div>
+	
+	<nav>
+  <ul class="pager">
+    <li><a href="show?all&start=${start < 100 ? start : start-100}&end=${end < 102 ? end : end-101}">Previous</a></li>
+    <li><a href="show?all&start=${start < 100 ? 101 : start+100}&end=${end < 100 ? end : end+100}">Next</a></li>
+  </ul>
+</nav>
+
 </body>
 </html>

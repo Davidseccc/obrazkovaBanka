@@ -51,4 +51,9 @@ public class TagService {
 	public Tag updateTag(Tag t) {
         return tagDao.merge(t);
     }
+	
+	public void findOrCreate(Tag t) {
+		tagDao.findOrCreate(t);
+	}
+	
 }

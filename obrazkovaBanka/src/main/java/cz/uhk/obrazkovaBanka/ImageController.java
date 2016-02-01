@@ -121,7 +121,6 @@ public class ImageController {
 			for (String item : items) {
 				Tag t = new Tag();
 				t.setName(item);
-				//tagService.saveTag(t);
 				System.out.println("ading " + t.toString() + "to taglist");
 				tagList.add(t);
 			}

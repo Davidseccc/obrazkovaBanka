@@ -38,7 +38,7 @@
 				<c:otherwise>
 					<p>
 						Hello <a style="padding-right: 1.5em"
-							href="/obrazkovaBanka/user/<%=request.getSession().getAttribute("loggedInUser")%>"><%=request.getSession().getAttribute("loggedInUser")%></a>
+							href="/obrazkovaBanka/user/<%=request.getSession().getAttribute("loggedInUser")%>/edit"><%=request.getSession().getAttribute("loggedInUser")%></a>
 						<a href="/obrazkovaBanka/user?logout">Sign out</a>
 					</p>
 				</c:otherwise>

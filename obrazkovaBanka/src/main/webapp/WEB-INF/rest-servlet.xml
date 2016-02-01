@@ -29,12 +29,17 @@
 	<bean id="imageDao" class="cz.uhk.obrazkovaBanka.entity.dao.ImageDao"/>
 
 
-
+	<bean id="roleService" class="cz.uhk.obrazkovaBanka.entity.services.RoleService"/>
+	<bean id="roleDao" class="cz.uhk.obrazkovaBanka.entity.dao.RoleDao"/>
 	
+	<bean id="role-admin" class="cz.uhk.obrazkovaBanka.entity.Role">
+		<property name="name" value="ADMIN"></property>
+		<property name="description" value="Adminitsrátoři portálu"></property>
+	</bean>
 	
+	<bean id="role-user" class="cz.uhk.obrazkovaBanka.entity.Role">
+		<property name="name" value="USER"></property>
+		<property name="description" value="Registrovaní uživatelé portálu"></property>
+	</bean>
 	
-
-	
-	
-
 </beans>

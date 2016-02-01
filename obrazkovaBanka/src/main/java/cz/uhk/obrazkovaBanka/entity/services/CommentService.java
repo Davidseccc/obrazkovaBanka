@@ -47,4 +47,8 @@ public class CommentService {
 	public Comment updateCategory(Comment c) {
         return commentDao.merge(c);
     }
+
+	public List<Comment> findCommentsByUser(String nickName) {
+		return commentDao.findCommentsByUser(nickName);
+	}
 }

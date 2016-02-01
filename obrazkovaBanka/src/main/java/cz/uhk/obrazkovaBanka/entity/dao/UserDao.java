@@ -32,7 +32,7 @@ public class UserDao {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu1");
 		EntityManager em = emf.createEntityManager();
 
-		List<User> users = em.createQuery("SELECT o FROM USER o", User.class).getResultList();
+		List<User> users = em.createQuery("SELECT o FROM User o", User.class).getResultList();
 
 		em.close();
 		return users;
@@ -53,7 +53,7 @@ public class UserDao {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu1");
 		EntityManager em = emf.createEntityManager();
 
-		List<User> users = em.createQuery("SELECT o FROM USER o", User.class).setFirstResult(firstResult)
+		List<User> users = em.createQuery("SELECT o FROM User o", User.class).setFirstResult(firstResult)
 				.setMaxResults(maxResults).getResultList();
 		em.close();
 		return users;

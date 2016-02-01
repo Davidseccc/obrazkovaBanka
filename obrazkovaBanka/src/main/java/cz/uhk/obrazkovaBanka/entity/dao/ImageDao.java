@@ -166,6 +166,20 @@ public class ImageDao {
         return images;
 	}
 
+	public List<Image> findImageByUser(String nickName) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu1");
+		EntityManager em = emf.createEntityManager(); 
+		
+        if (nickName == null) throw new IllegalArgumentException("The featured argument is required");
+        TypedQuery<Image> q = em.createQuery("Select distinct o from Image o join o.user u where u.nickName = :nick", Image.class)
+        		.setParameter("nick", nickName);
+       
+        
+        List<Image> images =  q.getResultList();
+        em.close();
+        return images;
+	}
+
 
 
 

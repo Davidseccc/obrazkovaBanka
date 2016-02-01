@@ -9,98 +9,86 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import cz.uhk.obrazkovaBanka.entity.Tag;
+import cz.uhk.obrazkovaBanka.entity.Role;
 
 @Service
-public class TagDao {
+public class RoleDao {
 
 	@PersistenceContext
    // private EntityManager entityManager;
      
-	public long countTags() {
+	public long countRoles() {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu1");
 		EntityManager em = emf.createEntityManager();
 		
-        long count = em.createQuery("SELECT COUNT(o) FROM Tag o", Long.class).getSingleResult();
+        long count = em.createQuery("SELECT COUNT(o) FROM Role o", Long.class).getSingleResult();
         em.close();
         return count;
 	}
 
-	public List<Tag> findAllTags() {
+	public List<Role> findAllRoles() {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu1");
 		EntityManager em = emf.createEntityManager();
 
-        List<Tag> tags = em.createQuery("SELECT o FROM Tag o", Tag.class).getResultList();
+        List<Role> roles = em.createQuery("SELECT o FROM Role o", Role.class).getResultList();
         em.close();
-        return tags;
-	}
-
-	public List<Tag> findTagsByImageId(int imageId) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu1");
-		EntityManager em = emf.createEntityManager();
-
-		@SuppressWarnings("unchecked")
-		List<Tag> tags = em.createNativeQuery("SELECT t.id, t.name FROM Tag AS t, Image_Tag AS it WHERE (t.id = it.tags_id) AND (it.images_id = (:id));", Tag.class)
-        		.setParameter("id", imageId).getResultList();
-		//List<Tag> tags = em.createQuery("SELECT distinct t FROM Tag t join t.images WHERE t.images = (:id)", Tag.class).setParameter("id", imageId).getResultList();
-        em.close();
-        return tags;
+        return roles;
 	}
 	
-	public Tag findTag(Integer id) {
+	public Role findRole(Integer id) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu1");
 		EntityManager em = emf.createEntityManager();
 
         if (id == null) return null;
-        Tag tag = em.find(Tag.class, id);
+        Role tag = em.find(Role.class, id);
         em.close();
         return tag;
     }
 	
-	public Tag findTagsEagerly(Long id) {
+	public Role findRoleEagerly(Long id) {
 
 		if (id == null) return null;
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu1");
 		EntityManager em = emf.createEntityManager();
 		
-        Tag tag =  em.createQuery("SELECT o FROM Tag o LEFT OUTER JOIN FETCH o.imageId WHERE o.id = (:id)", Tag.class)
+        Role role =  em.createQuery("SELECT o FROM Role o LEFT OUTER JOIN FETCH o.users WHERE o.id = (:id)", Role.class)
             	.setParameter("id", id).getSingleResult();
         em.close();
-        return tag;
+        return role;
 	}
 
-	public List<Tag> findTagsEntries(int firstResult, int maxResults) {
+	public List<Role> findRoleEntries(int firstResult, int maxResults) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu1");
 		EntityManager em = emf.createEntityManager();
 		
-        List<Tag> tags = em.createQuery("SELECT o FROM Tag o", Tag.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+        List<Role> tags = em.createQuery("SELECT o FROM Role o", Role.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
         em.close();
         return tags;
 	}
 
 	@Transactional
-    public void persist(Tag t) {
+    public void persist(Role r) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu1");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		
-		em.persist(t);
+		em.persist(r);
 		
 		em.getTransaction().commit();
 		em.close();
     }
 
 	
-    public void remove(Tag t) {
+    public void remove(Role r) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu1");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		
-        if (em.contains(t)) {
-            em.remove(t);
+        if (em.contains(r)) {
+            em.remove(r);
         } else {
-            t = findTag(t.getId());
-            em.remove(t);
+            r = findRole(r.getId());
+            em.remove(r);
         }
         em.getTransaction().commit();
         em.close();
@@ -127,32 +115,17 @@ public class TagDao {
     }
 
 
-    public Tag merge(Tag c) {
+    public Role merge(Role r) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu1");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		
-        Tag merged = em.merge(c);
+        Role merged = em.merge(r);
         em.flush();
         
         em.getTransaction().commit();
         em.close();
         return merged;
-    }
-    
-    @Transactional
-    public void findOrCreate(Tag t) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu1");
-		EntityManager em = emf.createEntityManager();
-		em.getTransaction().begin();
-		
-        Tag entity = findTag(t.getId());
-        if ( entity == null ) {
-                em.persist(entity); 
-
-        }
-        em.getTransaction().commit();
-        em.close();
     }
 
 }

@@ -1,6 +1,7 @@
 package cz.uhk.obrazkovaBanka;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -18,8 +20,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import cz.uhk.obrazkovaBanka.entity.Comment;
+import cz.uhk.obrazkovaBanka.entity.Image;
+import cz.uhk.obrazkovaBanka.entity.Role;
 import cz.uhk.obrazkovaBanka.entity.User;
 import cz.uhk.obrazkovaBanka.entity.services.CommentService;
+import cz.uhk.obrazkovaBanka.entity.services.ImageService;
+import cz.uhk.obrazkovaBanka.entity.services.RoleService;
 import cz.uhk.obrazkovaBanka.entity.services.UserService;
 
 @Controller
@@ -32,7 +39,10 @@ public class UserController {
 	UserService userService;
 	@Autowired
 	CommentService commentService;
-
+	@Autowired
+	RoleService roleService;
+	@Autowired
+	ImageService imageService;
 	
 	@RequestMapping(params = "register")
 	public String registerNew(Model model) {
@@ -45,19 +55,26 @@ public class UserController {
 		return "user/login";
 	}
 	
-	@RequestMapping(value = "/{userId}")
-	public String getUserProfile(@PathVariable String userId, Map<String, Object> model, HttpSession session ){
-		User user = userService.findUserByNickName(userId);
-		model.put("user", user);
-		
-		return "user/home";
-	}
-	
 	@RequestMapping(value = "/{userId}/edit")
 	public String editUserProfile(@PathVariable String userId, Map<String, Object> model, HttpSession session ){
 		User user = userService.findUserByNickName(userId);
 		model.put("user", user);
 		return "user/edit";
+	}
+	
+	@RequestMapping(value = "/{userId}/images")
+	public String showUserImages(@PathVariable String userId, Model model, HttpSession session ){
+		List<Image> images = imageService.findImageByUser(userId);
+		model.addAttribute("imageList", images);
+		return "image/userGallery";
+	}
+	
+	@RequestMapping(value = "/{userId}/comments")
+	public String showUserComments(@PathVariable String userId, Model model, HttpSession session ){
+		List<Comment> comments = commentService.findCommentsByUser(userId);
+		
+		model.addAttribute("commentList", comments);
+		return "comment/userComments";
 	}
 
 	
@@ -65,13 +82,15 @@ public class UserController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String saveUser(@ModelAttribute("user") @Validated User user, BindingResult result, RedirectAttributes redirectAttributes)  {
 		if (result.hasErrors()){
-			redirectAttributes.addAttribute("ERROR", "All fields are requiered");
+			redirectAttributes.addFlashAttribute("ERROR", "All fields are requiered");
 			return "user/register";
 		}
 		user.setRegisteredDate(new Date());
 		System.out.println(user.toString());
 		String passwordHash = new BCryptPasswordEncoder().encode(user.getPassword());
 		user.setPassword(passwordHash);
+		Role r = roleService.findRole(2);
+		user.setRole(r);
 		userService.saveUser(user);
 		return "user/userSaved";
 	}
@@ -92,8 +111,11 @@ public class UserController {
 		}
 		else{
 			session.setAttribute("loggedInUser", u.getNickName());
+			session.setAttribute("loggedInUserRole", u.getRole().getName());
 			System.out.println("Session Saved " + session.getAttribute("loggedInUser").toString());
-			mod.put("user", u);
+			u.setLastVisit(new Date());
+			userService.updateUser(u);
+			//model.addAttribute("user", u);
 		return "home";
 		}
 	}
@@ -163,5 +185,25 @@ public class UserController {
 	}
 	
 	
+	@RequestMapping(value="show", params={"all"}, method = RequestMethod.GET)
+	public String findAllUsers(Model model, @ModelAttribute("start") int start, @ModelAttribute("end") int end){
+		List <User> users = userService.findUserEntries(start, end);
+		model.addAttribute("userList", users);
+		List<Role> roleList = roleService.getAllRoles();
+		model.addAttribute("roleList", roleList);
+		model.addAttribute("start",start);
+		return "user/listAll";
+	}
+	
+	@Transactional
+	@RequestMapping(value="saveRole", method = RequestMethod.POST)
+	public String updateRole(@ModelAttribute("role") int roleId, @RequestParam(value = "id") int id, RedirectAttributes redirectAttributes, BindingResult bindingResult){
+		Role role = roleService.findRole(roleId);
+		User u = userService.findUser(id);
+		u.setRole(role);
+		userService.updateUser(u);
+		redirectAttributes.addFlashAttribute("OK", "Succesfully saved");
+		return "redirect:show?all";
+	}
 }
 

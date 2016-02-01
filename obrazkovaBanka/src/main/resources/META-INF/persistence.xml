@@ -9,6 +9,7 @@
 		<class>cz.uhk.obrazkovaBanka.entity.Image</class>
 		<class>cz.uhk.obrazkovaBanka.entity.Rating</class>
 		<class>cz.uhk.obrazkovaBanka.entity.Tag</class>
+		<class>cz.uhk.obrazkovaBanka.entity.Role</class>
 
 
 		<properties>

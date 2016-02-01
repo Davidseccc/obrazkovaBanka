@@ -6,11 +6,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cz.uhk.obrazkovaBanka.entity.Comment;
+import cz.uhk.obrazkovaBanka.entity.Image;
 
 @Service
 public class CommentDao {
@@ -128,5 +130,19 @@ public class CommentDao {
         em.close();
         return merged;
     }
+    public List<Comment> findCommentsByUser(String nickName) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu1");
+		EntityManager em = emf.createEntityManager(); 
+		
+        if (nickName == null) throw new IllegalArgumentException("The featured argument is required");
+        TypedQuery<Comment> q = em.createQuery("Select distinct o from Comment o join o.user u where u.nickName = :nick", Comment.class)
+        		.setParameter("nick", nickName);
+       
+        
+        List<Comment> comments =  q.getResultList();
+        em.close();
+        return comments;
+    
+    }  
 
 }

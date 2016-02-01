@@ -13,14 +13,18 @@
 </head>
 <body>
 
-<div class="container">
+<div class="container container-menu">
 			<div class="header clearfix">
 				<nav>
 				<ul class="nav nav-pills pull-right">
-					<li> 				<a href="../${user.nickName}">Home</a></li>
+					<li> 				<a href="/obrazkovaBanka/">Home</a></li>
 					<li class="active">	<a href="#">Profile</a></li>
-					<li>				<a href="/images">Images</a></li>
-					<li>				<a href="/comments">Comments</a></li>
+					<li>				<a href="/obrazkovaBanka/user/${user.nickName}/images">Images</a></li>
+					<li>				<a href="/obrazkovaBanka/user/${user.nickName}/comments">Comments</a></li>
+					<c:if test="${loggedInUserRole == 'ROLE_ADMIN'}">
+					<li>				<a href="/obrazkovaBanka/user/show?all">All users</a></li>
+					<li>				<a href="/obrazkovaBanka/category/show?all">Manage categories</a></li>
+					</c:if>
 				</ul>
 				</nav>
 			</div>

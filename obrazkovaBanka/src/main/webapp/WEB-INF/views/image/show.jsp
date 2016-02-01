@@ -38,6 +38,7 @@
 				Category: ${image.category.name}</p>
 		</div>
 		
+		<c:if test="${image.user.nickName.equals(loggedInUser) || loggedInUserRole == 'ROLE_ADMIN'}">
 		<div style="margin-right:-45px; display: block" class="pull-right">
 			<a href="?edit" class="btn btn-link btn-sm"> <span
 				class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
@@ -46,7 +47,7 @@
 				Delete
 			</a>
 		</div>
-		
+		</c:if>
 	</div>
 	<img src="../controller/getImage/${image.hash}"
 		class="center-block img-rounded" alt="Cinque Terre"

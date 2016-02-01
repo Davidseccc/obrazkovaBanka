@@ -16,7 +16,7 @@ public class Comment implements Serializable {
 	@Id	@GeneratedValue
 	int id;
 	Date date;
-	@Size(max=255, min=2)
+	@Size(max=512, min=2)
 	String content;
 	@ManyToOne @JoinColumn(name="user_id")
 	User user;

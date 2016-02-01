@@ -64,4 +64,8 @@ public class ImageService {
 		return imageDao.findImagesWithTag(tag);
 	}
 
+	public List<Image> findImageByUser(String nickName) {
+		return imageDao.findImageByUser(nickName);
+	}
+
 }

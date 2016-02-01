@@ -37,9 +37,7 @@
 			<div class="col-sm-10">
 				<select class="form-control" name="cat" id="cat">
 					<c:forEach var="category" items="${categoryList}">
-						<option> 
-						<c:out value="${category.name}"></c:out>
-						</option>
+						<option ${image.category.name == category.name ? 'selected="selected"' : ''}>${category.name}</option>
 					</c:forEach>
 				</select>
 			</div>
