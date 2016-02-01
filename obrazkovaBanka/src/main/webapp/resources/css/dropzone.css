@@ -1,0 +1,37 @@
+#dropzone {
+	background-image: url("/obrazkovaBanka/resources/img/upload.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-color: #ccccc;
+	width: 150px;
+	height: 100px;
+	padding-top: 80px;
+	text-align: center;
+	font-weight: bold;
+}
+
+#dropzone:hover {
+	background-image: url("/obrazkovaBanka/resources/img/file-add.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	/* 	color: #66cc00; */
+}
+
+#dropzone.fade {
+	-webkit-transition: all 0.3s ease-out;
+	-moz-transition: all 0.3s ease-out;
+	-ms-transition: all 0.3s ease-out;
+	-o-transition: all 0.3s ease-out;
+	transition: all 0.3s ease-out;
+	opacity: 1;
+}
+
+.center {
+	text-align: center;
+}
+
+.centered {
+    position: absolute;
+    top: 0; bottom:0; left: 0; right:0;
+    margin: auto;
+}

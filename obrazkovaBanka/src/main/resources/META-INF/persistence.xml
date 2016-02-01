@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+	<persistence-unit name="pu1">
+		<class>cz.uhk.obrazkovaBanka.entity.User</class>
+		<class>cz.uhk.obrazkovaBanka.entity.Category</class>
+		<class>cz.uhk.obrazkovaBanka.entity.Comment</class>
+		<class>cz.uhk.obrazkovaBanka.entity.Image</class>
+		<class>cz.uhk.obrazkovaBanka.entity.Rating</class>
+		<class>cz.uhk.obrazkovaBanka.entity.Tag</class>
+
+
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+
+			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
+			<property name="hibernate.connection.url" value="jdbc:mysql://37.221.248.104:3306/imagehosting" />
+			<property name="hibernate.connection.username" value="bar" />
+			<property name="hibernate.connection.password" value="MbxptX2yCLmzfGpB" />
+		</properties>
+
+	</persistence-unit>
+</persistence>
+
+
+

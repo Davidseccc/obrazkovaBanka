@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><entities>
+	<entity>
+		<entity-name>cz.uhk.obrazkovaBanka.entity.Category</entity-name>
+		<entity-width>120</entity-width>
+		<entity-height>146</entity-height>
+		<entity-X-Coordinate>60</entity-X-Coordinate>
+		<entity-Y-Coordinate>440</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+
+	<entity>
+		<entity-name>cz.uhk.obrazkovaBanka.entity.Comment</entity-name>
+		<entity-width>120</entity-width>
+		<entity-height>186</entity-height>
+		<entity-X-Coordinate>275</entity-X-Coordinate>
+		<entity-Y-Coordinate>-14</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+
+	<entity>
+		<entity-name>cz.uhk.obrazkovaBanka.entity.Image</entity-name>
+		<entity-width>120</entity-width>
+		<entity-height>346</entity-height>
+		<entity-X-Coordinate>254</entity-X-Coordinate>
+		<entity-Y-Coordinate>340</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+
+	<entity>
+		<entity-name>cz.uhk.obrazkovaBanka.entity.Rating</entity-name>
+		<entity-width>120</entity-width>
+		<entity-height>166</entity-height>
+		<entity-X-Coordinate>474</entity-X-Coordinate>
+		<entity-Y-Coordinate>457</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+
+	<entity>
+		<entity-name>cz.uhk.obrazkovaBanka.entity.Tag</entity-name>
+		<entity-width>120</entity-width>
+		<entity-height>146</entity-height>
+		<entity-X-Coordinate>90</entity-X-Coordinate>
+		<entity-Y-Coordinate>116</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+
+	<entity>
+		<entity-name>cz.uhk.obrazkovaBanka.entity.User</entity-name>
+		<entity-width>120</entity-width>
+		<entity-height>246</entity-height>
+		<entity-X-Coordinate>474</entity-X-Coordinate>
+		<entity-Y-Coordinate>144</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+</entities>
