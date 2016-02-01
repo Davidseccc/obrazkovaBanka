@@ -72,15 +72,16 @@ public class FileController {
  
 
          while(itr.hasNext()){
- 
+        	 
              //2.1 get next MultipartFile
              mpf = request.getFile(itr.next()); 
              System.out.println(mpf.getOriginalFilename() +" uploaded! "+files.size());
- 
+             
              //2.2 if files > 10 remove the first from the list
-             if(files.size() >= 10)
+             if(files.size() >= 10 || (! SUPPORTED_FORMATS.contains(mpf.getContentType()))){
                  files.pop();
- 
+                 
+             }
              //2.3 create new fileMeta
                       
              String deleteHash = mpf.getOriginalFilename() + new Date() + Long.toHexString(Double.doubleToLongBits(Math.random()));

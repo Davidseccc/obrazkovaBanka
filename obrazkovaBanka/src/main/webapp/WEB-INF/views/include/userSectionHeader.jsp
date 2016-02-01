@@ -11,7 +11,7 @@
 
 
 <script src="/obrazkovaBanka/resources/js/vendor/jquery.ui.widget.js"></script>
-<script src="/obrazkovaBanka/resources/js/jquery.iframe-transport.js"></script>
+<script src="/obrazkovaBanka/resources/js/jquery.iframe-transport.min.js"></script>
 <script src="/obrazkovaBanka/resources/js/mycommnetfunction.js"></script>
 
 
@@ -37,6 +37,7 @@
 						<a href="/obrazkovaBanka/user?logout">Sign out</a>
 					</p>
 				</c:otherwise>
+				<p>Hello <a style="padding-right: 1.5em" href="/obrazkovaBanka/user/<%=request.getSession().getAttribute("loggedInUser")%>"><%=request.getSession().getAttribute("loggedInUser")%></a> <a href="/obrazkovaBanka/user?logout">Sign out</a></p>
 			</c:choose>
 		</div>
 		<h1>

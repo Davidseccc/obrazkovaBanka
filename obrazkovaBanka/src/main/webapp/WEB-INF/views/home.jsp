@@ -25,16 +25,13 @@
 			data-url="controller/savefiles" multiple>
 
 		<div id="dropzone" class="center-block fade well">Drop files here</div>
-
-		<h2>Progress Bar With Label</h2>
+		<p class="text-center small text-muted">Supported content path: <kbd class="kdb-grey">image/bmp</kbd>, <kbd class="kdb-grey">image/jpeg</kbd> and <kbd class="kdb-grey">image/png</kbd></p>
+		<h2>Upload progress</h2>
 		<div class="progress" style="width: 600px;">
 			<div class="progress-bar progress-bar-success progress-bar-striped"
 				role="progressbar" aria-valuenow="0" aria-valuemin="0"
 				aria-valuemax="100" style="width: 0%">0%</div>
 		</div>
-
-
-
 		<table id="uploaded-files" class="table">
 			<tr>
 				<th>File Name</th>

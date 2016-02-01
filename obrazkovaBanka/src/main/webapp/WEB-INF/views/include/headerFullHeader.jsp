@@ -11,8 +11,8 @@
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 <script src="/obrazkovaBanka/resources/js/vendor/jquery.ui.widget.js"></script>
-<script src="/obrazkovaBanka/resources/js/jquery.iframe-transport.js"></script>
-<script src="/obrazkovaBanka/resources/js/jquery.fileupload.js"></script>
+<script src="/obrazkovaBanka/resources/js/jquery.iframe-transport.min.js"></script>
+<script src="/obrazkovaBanka/resources/js/jquery.fileupload.min.js"></script>
 <script src="/obrazkovaBanka/resources/js/mycommnetfunction.js"></script>
 
 
@@ -32,7 +32,7 @@
   			<p><a href="/obrazkovaBanka/user?login">Sign in</a>  <a href="/obrazkovaBanka/user?register">Sign up</a></p>
   		</c:when>
   		<c:otherwise>
-			<p><a href="/obrazkovaBanka/user?logout">Sign out</a></p>
+				<p>Hello <a style="padding-right: 1.5em" href="/obrazkovaBanka/user/<%=request.getSession().getAttribute("loggedInUser")%>"><%=request.getSession().getAttribute("loggedInUser")%></a> <a href="/obrazkovaBanka/user?logout">Sign out</a></p>
   		</c:otherwise>
 	</c:choose>
 		</div>
