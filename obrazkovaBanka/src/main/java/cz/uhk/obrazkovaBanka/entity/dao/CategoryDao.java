@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import cz.uhk.obrazkovaBanka.entity.Category;
-import cz.uhk.obrazkovaBanka.entity.Image;
 
 @Repository
 public class CategoryDao {

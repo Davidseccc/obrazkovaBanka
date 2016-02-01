@@ -4,12 +4,9 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -20,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +34,6 @@ import cz.uhk.obrazkovaBanka.entity.Image;
 import cz.uhk.obrazkovaBanka.entity.User;
 import cz.uhk.obrazkovaBanka.entity.services.ImageService;
 import cz.uhk.obrazkovaBanka.entity.services.UserService;
-import cz.uhk.obrazkovaBanka.model.FileMeta;
 
 @Controller
 @RequestMapping("/controller")

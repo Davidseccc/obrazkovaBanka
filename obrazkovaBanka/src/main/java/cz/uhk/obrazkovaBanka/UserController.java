@@ -4,10 +4,7 @@ import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -23,14 +20,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cz.uhk.obrazkovaBanka.entity.User;
 import cz.uhk.obrazkovaBanka.entity.services.CommentService;
-import cz.uhk.obrazkovaBanka.entity.services.ImageService;
 import cz.uhk.obrazkovaBanka.entity.services.UserService;
 
 @Controller
 @RequestMapping(value = "/user")
 public class UserController {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	//private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@Autowired
 	UserService userService;

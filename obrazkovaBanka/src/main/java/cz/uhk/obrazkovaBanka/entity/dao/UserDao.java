@@ -7,10 +7,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.servlet.jsp.JspPage;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+
 import cz.uhk.obrazkovaBanka.entity.User;
 
 @Controller

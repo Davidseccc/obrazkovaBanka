@@ -3,8 +3,13 @@ package cz.uhk.obrazkovaBanka.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.*;
-import static javax.persistence.FetchType.LAZY;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * Entity implementation class for Entity: Rating
