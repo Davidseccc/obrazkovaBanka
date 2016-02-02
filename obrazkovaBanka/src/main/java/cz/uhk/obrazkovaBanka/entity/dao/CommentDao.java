@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cz.uhk.obrazkovaBanka.entity.Comment;
-import cz.uhk.obrazkovaBanka.entity.Image;
 
 @Service
 public class CommentDao {

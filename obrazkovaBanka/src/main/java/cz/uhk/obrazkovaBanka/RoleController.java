@@ -2,7 +2,6 @@ package cz.uhk.obrazkovaBanka;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,11 +11,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cz.uhk.obrazkovaBanka.entity.Role;
-import cz.uhk.obrazkovaBanka.entity.User;
 import cz.uhk.obrazkovaBanka.entity.services.RoleService;
 
 @Controller

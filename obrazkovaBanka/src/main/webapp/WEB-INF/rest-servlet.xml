@@ -41,5 +41,5 @@
 		<property name="name" value="USER"></property>
 		<property name="description" value="Registrovaní uživatelé portálu"></property>
 	</bean>
-	
+		
 </beans>

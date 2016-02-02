@@ -66,25 +66,33 @@ public class ImageController {
 	 */
 	@RequestMapping(value = "/")
 	public String noImage(Model model) {
-		String str = "No image specified.</br>Try to <a href=\"/obrazkovaBanka/search?image\">find</a> someone.";
+		String str = "No image specified.</br>Try to <a href=\"/obrazkovaBanka/search/?image\">find</a> someone.";
 		model.addAttribute("ERROR", str);
 		return "error";
 	}
 
 	@RequestMapping(value = "/{imageId}")
 	public String showImage(@PathVariable String imageId, Model model) {
-		Image image = imageService.findImageByHash(imageId);
 
-		if (image == null) {
-			logger.info("IMAGE NOT FOUND. Image with hash " + imageId + " not found.");
-			throw new ResourceAccessException("IMAGE NOT FOUND.");
+		try {
+			Image image = imageService.findImageByHash(imageId);
+			if (image == null) {
+				logger.info("IMAGE NOT FOUND. Image with hash " + imageId + " not found.");
+			}
+				List<Tag> tags = tagService.findTagsByImageId(image.getId());
+			
+				double avgRating = ratingService.findAvgRatingbyImageId(image.getId());
+				model.addAttribute("image", image);
+				model.addAttribute("avgRating", String.format("%.2f", avgRating));
+				model.addAttribute("TagList", tags);
+			
+		} catch (Exception e) {
+			String str = "No image found.</br>Try to <a href=\"/obrazkovaBanka/search/?image\">find</a> someone.";
+			model.addAttribute("ERROR", str);
+			return "error";
 		}
-		List<Tag> tags = tagService.findTagsByImageId(image.getId());
-		double avgRating = ratingService.findAvgRatingbyImageId(image.getId());
-		model.addAttribute("image", image);
-		model.addAttribute("avgRating", String.format("%.2f", avgRating));
-		model.addAttribute("TagList", tags);
 		return "image/show";
+
 	}
 
 	@RequestMapping(value = "/{imageId}", params = "edit", method = RequestMethod.GET)
@@ -102,6 +110,7 @@ public class ImageController {
 		model.addAttribute("categoryList", categories);
 		return "image/edit";
 	}
+
 	@Transactional
 	@RequestMapping(value = "/{imageId}", params = "save", method = RequestMethod.POST)
 	public String saveEditedImage(@ModelAttribute("image") @Validated Image image, @PathVariable String imageId,
@@ -116,8 +125,8 @@ public class ImageController {
 			logger.info("IMAGE NOT FOUND");
 		}
 		User user = i.getUser();
-		
-		if (!AccesController.checkPermission(session, AccesController.OWNER_AND_ADMINS, user)){
+
+		if (!AccesController.checkPermission(session, AccesController.OWNER_AND_ADMINS, user)) {
 			model.addAttribute("ERROR", "You do not have permission to do that.");
 			return "error";
 		}
@@ -175,10 +184,10 @@ public class ImageController {
 		r.setValue(rating);
 		r.setImage(image);
 		ratingService.saveRating(r);
-		Cookie cookie = new Cookie(imageId.toString(), rating.toString()); 
-																			
+		Cookie cookie = new Cookie(imageId.toString(), rating.toString());
+
 		cookie.setMaxAge(86400); // set expire time to 24 hours
-		response.addCookie(cookie); 
+		response.addCookie(cookie);
 	}
 
 	@Transactional

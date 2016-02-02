@@ -2,19 +2,12 @@ package cz.uhk.obrazkovaBanka;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import cz.uhk.obrazkovaBanka.entity.User;
-import cz.uhk.obrazkovaBanka.entity.services.UserService;
 
 @Controller
-@RequestMapping(value = "/role")
 public class AccesController {
 
-	@Autowired
-	UserService userService;
 
 	// private static final Logger logger =
 	// LoggerFactory.getLogger(CatogoryController.class);

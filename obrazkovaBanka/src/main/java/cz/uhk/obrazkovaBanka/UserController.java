@@ -6,7 +6,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -146,6 +149,40 @@ public class UserController {
 		return "user/login";
 	}
 	
+	@RequestMapping(params = "resetPassword")
+	public String resetPassword() {
+		return "user/resetPassword";
+	}
+	
+	@RequestMapping(value = "/reset", method = RequestMethod.POST)
+	public String ResetUserPass(@ModelAttribute("email") String email,HttpSession session, RedirectAttributes redirectAttributes) {
+		if (email == null){
+			redirectAttributes.addFlashAttribute("ERROR", "Invalid Email");
+			return "redirect:/user?resetPassword";
+		}
+		try {
+			User u = userService.findUserByEmail(email);
+			String password = RandomStringUtils.random(10, true, true).toString() ;
+			System.out.println("new password is:" + password);
+			ApplicationContext context = 
+		             new ClassPathXmlApplicationContext("Spring-Mail.xml");
+		    	 
+		    	MailMail mm = (MailMail) context.getBean("mailMail");
+		        mm.sendMail("imagehost@vid91.eu",
+		    		   u.getEmail(),
+		    		   "Your nwe password to Image Upload", 
+		    		   "Your password has been changed\n\n Your new password is:" + password);
+			userService.changeUserPassword(u, password);
+			redirectAttributes.addFlashAttribute("OK", "Password successfully reset. Check your mailbox...");
+
+			
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("ERROR", "Email not found");
+			return "redirect:/user?resetPassword";
+		}
+
+		return "redirect:/user?login";
+	}
 	
 	@RequestMapping(value = "/{userId}/update", method = RequestMethod.POST)
 	public String updateUser(User user, @PathVariable String userId ,BindingResult result,

@@ -15,10 +15,13 @@
 			<div class="header clearfix">
 				<nav>
 				<ul class="nav nav-pills pull-right">
-					<li >				<a href="../">Home</a></li>
-					<li class="active">	<a href="search/">Search</a></li>
-					<li>				<a href="../about.jsp">About</a></li>
-					<li> 				<a href="../contact.jsp">Contact</a></li>
+					<li >				<a href="/obrazkovaBanka/">Home</a></li>
+					<li class="active">	<a href="/obrazkovaBanka/search/?image">Search</a></li>
+					<li>				<a href="/obrazkovaBanka/about.jsp">About</a></li>
+					<li> 				<a href="/obrazkovaBanka/contact.jsp">Contact</a></li>
+					<c:if test="${!empty loggedInUser}">
+					<li><a href="/obrazkovaBanka/user/${loggedInUser}/edit">User section</a></li>
+					</c:if>
 				</ul>
 				</nav>
 			</div>
@@ -26,8 +29,7 @@
 		
 			<div class="container" style="width: 500px;">
 			 <h2>Search Image</h2>
-		<p>The .thumbnail class can be used to display an image gallery.
-			Click on the images to see it in full size:</p>
+		<p>Enter key world to find image</p>
 			
 		<jsp:include page="/WEB-INF/views/include/messages.jsp"></jsp:include>
 			
