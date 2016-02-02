@@ -20,7 +20,7 @@
 				<li><a href="/obrazkovaBanka/user/${loggedInUser}/images">Images</a></li>
 				<li><a href="/obrazkovaBanka/user/${loggedInUser}/comments">Comments</a></li>
 				<c:if test="${loggedInUserRole == 'ROLE_ADMIN'}">
-					<li class="active"><a href="/obrazkovaBanka/user/show?all">All users</a></li>
+					<li class="active"><a href="/obrazkovaBanka/user/show?all&start=0&end=100">All users</a></li>
 					<li><a href="/obrazkovaBanka/category/show?all">Manage
 							categories</a></li>
 				</c:if>
@@ -71,8 +71,8 @@
 	
 	<nav>
   <ul class="pager">
-    <li><a href="show?all&start=${start < 100 ? start : start-100}&end=${end < 102 ? end : end-101}">Previous</a></li>
-    <li><a href="show?all&start=${start < 100 ? 101 : start+100}&end=${end < 100 ? end : end+100}">Next</a></li>
+    <li><a href="show?all&start=${start <= 100 ? 0 : start-100}&end=${end <= 101 ? end : end-100}">Previous</a></li>
+    <li><a href="show?all&start=${start <= 100 ? 101 : start+100}&end=${end < 100 ? end : end+100}">Next</a></li>
   </ul>
 </nav>
 

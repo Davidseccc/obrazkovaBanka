@@ -56,14 +56,27 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/{userId}/edit")
-	public String editUserProfile(@PathVariable String userId, Map<String, Object> model, HttpSession session ){
+	public String editUserProfile(@PathVariable String userId, Model model, HttpSession session){
+
 		User user = userService.findUserByNickName(userId);
-		model.put("user", user);
+		if (!AccesController.checkPermission(session, AccesController.OWNER_AND_ADMINS, user)){
+			model.addAttribute("ERROR", "You do not have permission to do that.");
+			return "error";
+		}
+		
+		model.addAttribute("user", user);
 		return "user/edit";
 	}
-	
+
 	@RequestMapping(value = "/{userId}/images")
 	public String showUserImages(@PathVariable String userId, Model model, HttpSession session ){
+		
+		User user = userService.findUserByNickName(userId);
+		if (!AccesController.checkPermission(session, AccesController.OWNER_AND_ADMINS, user)){
+			model.addAttribute("ERROR", "You do not have permission to do that.");
+			return "error";
+		}
+		
 		List<Image> images = imageService.findImageByUser(userId);
 		model.addAttribute("imageList", images);
 		return "image/userGallery";
@@ -71,6 +84,13 @@ public class UserController {
 	
 	@RequestMapping(value = "/{userId}/comments")
 	public String showUserComments(@PathVariable String userId, Model model, HttpSession session ){
+		
+		User user = userService.findUserByNickName(userId);
+		if (!AccesController.checkPermission(session, AccesController.OWNER_AND_ADMINS, user)){
+			model.addAttribute("ERROR", "You do not have permission to do that.");
+			return "error";
+		}
+		
 		List<Comment> comments = commentService.findCommentsByUser(userId);
 		
 		model.addAttribute("commentList", comments);
@@ -129,30 +149,35 @@ public class UserController {
 	
 	@RequestMapping(value = "/{userId}/update", method = RequestMethod.POST)
 	public String updateUser(User user, @PathVariable String userId ,BindingResult result,
-			HttpSession session,final RedirectAttributes redirectAttributes ){
+			HttpSession session,final RedirectAttributes redirectAttributes, Model model ){
 		
 		 Object uname = session.getAttribute("loggedInUser");
 		if(uname == null || !(uname.toString().equalsIgnoreCase(userId))){
 			
 			redirectAttributes.addFlashAttribute("ERROR","Invalid parameters");
 			System.out.println("Invalid parameters");
-			return "redirect:/user/" + userId;
+			return "redirect:/user/" + userId +"/edit";
 		}
 		
-		User u = userService.findUserByNickName(userId);
+		User u = userService.findUserByNickName(userId);		
+		if (!AccesController.checkPermission(session, AccesController.OWNER_AND_ADMINS, u)){
+			model.addAttribute("ERROR", "You do not have permission to do that.");
+			return "error";
+		}
+		
 		System.out.println(user.toString());
 		if(!(user.getEmail().equalsIgnoreCase(u.getEmail()) || user.getEmail().isEmpty())){
 			u.setEmail(user.getEmail());
 		}
 		u.setName(user.getName());
 		userService.updateUser(u);
-		return "redirect:/user/" + u.getNickName();
+		return "redirect:/user/" + u.getNickName() + "/edit";
 	}
 	
 	@RequestMapping(value = "/{userId}/passchange", method = RequestMethod.POST)
 	public String changeUserPassword( @RequestParam("curpasswrd") String currentPass, 
 			@RequestParam("passwrd1") String newPass, @RequestParam("password2") String repeatPass, 
-			@PathVariable String userId,HttpSession session, final RedirectAttributes redirectAttributes){
+			@PathVariable String userId,HttpSession session, Model model ,final RedirectAttributes redirectAttributes){
 		 Object uname = session.getAttribute("loggedInUser");
 		 String errorStr = null;
 		if(uname == null || !(uname.toString().equalsIgnoreCase(userId)) || 
@@ -165,6 +190,10 @@ public class UserController {
 		}
 		
 		User u = userService.findUserByNickName(userId);
+		if (!AccesController.checkPermission(session, AccesController.OWNER_AND_ADMINS, u)){
+			model.addAttribute("ERROR", "You do not have permission to do that.");
+			return "error";
+		}
 		if(userService.checkUser(u, currentPass) ){
 			
 			if (! newPass.equals(repeatPass)){
@@ -186,7 +215,14 @@ public class UserController {
 	
 	
 	@RequestMapping(value="show", params={"all"}, method = RequestMethod.GET)
-	public String findAllUsers(Model model, @ModelAttribute("start") int start, @ModelAttribute("end") int end){
+	public String findAllUsers(@ModelAttribute("start") int start, @ModelAttribute("end") int end, Model model, HttpSession session){
+		User user = userService.findUserByNickName( (String) session.getAttribute("loggedInUser"));
+		
+		if (!AccesController.checkPermission(session, AccesController.ADMINS_ONLY, user)){
+			model.addAttribute("ERROR", "You do not have permission to do that.");
+			return "error";
+		}
+		
 		List <User> users = userService.findUserEntries(start, end);
 		model.addAttribute("userList", users);
 		List<Role> roleList = roleService.getAllRoles();
@@ -197,10 +233,19 @@ public class UserController {
 	
 	@Transactional
 	@RequestMapping(value="saveRole", method = RequestMethod.POST)
-	public String updateRole(@ModelAttribute("role") int roleId, @RequestParam(value = "id") int id, RedirectAttributes redirectAttributes, BindingResult bindingResult){
+	public String updateRole(@ModelAttribute("role") int roleId, @RequestParam(value = "id") int id, 
+			RedirectAttributes redirectAttributes,HttpSession session, Model model ,BindingResult bindingResult){
+		
+		
 		Role role = roleService.findRole(roleId);
 		User u = userService.findUser(id);
+		
+		if (!AccesController.checkPermission(session, AccesController.ADMINS_ONLY, u)){
+			model.addAttribute("ERROR", "You do not have permission to do that.");
+			return "error";
+		}
 		u.setRole(role);
+		session.setAttribute("loggedInUserRole", role.getName());
 		userService.updateUser(u);
 		redirectAttributes.addFlashAttribute("OK", "Succesfully saved");
 		return "redirect:show?all";

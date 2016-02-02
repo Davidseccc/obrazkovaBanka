@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,7 @@ import cz.uhk.obrazkovaBanka.entity.Category;
 import cz.uhk.obrazkovaBanka.entity.Image;
 import cz.uhk.obrazkovaBanka.entity.Rating;
 import cz.uhk.obrazkovaBanka.entity.Tag;
+import cz.uhk.obrazkovaBanka.entity.User;
 import cz.uhk.obrazkovaBanka.entity.services.CategoryService;
 import cz.uhk.obrazkovaBanka.entity.services.CommentService;
 import cz.uhk.obrazkovaBanka.entity.services.ImageService;
@@ -104,14 +106,20 @@ public class ImageController {
 	@RequestMapping(value = "/{imageId}", params = "save", method = RequestMethod.POST)
 	public String saveEditedImage(@ModelAttribute("image") @Validated Image image, @PathVariable String imageId,
 			@RequestParam(value = "tagList") String tags, @RequestParam(value = "cat") String category, Model model,
-			BindingResult result) {
+			BindingResult result, HttpSession session) {
 		if (result.hasErrors()) {
 			logger.info("IMAGE is NOT VALID");
 			// return "redirect:/image/" + imageId;
 		}
 		Image i = imageService.findImageByHash(imageId);
 		if (i == null) {
-			logger.info("IMAGE is NOT FOUND");
+			logger.info("IMAGE NOT FOUND");
+		}
+		User user = i.getUser();
+		
+		if (!AccesController.checkPermission(session, AccesController.OWNER_AND_ADMINS, user)){
+			model.addAttribute("ERROR", "You do not have permission to do that.");
+			return "error";
 		}
 		String[] items = tags.split(";");
 		System.out.println("items lenght " + items.length);
@@ -167,10 +175,10 @@ public class ImageController {
 		r.setValue(rating);
 		r.setImage(image);
 		ratingService.saveRating(r);
-		Cookie cookie = new Cookie(imageId.toString(), rating.toString()); // bake
-																			// cookie
+		Cookie cookie = new Cookie(imageId.toString(), rating.toString()); 
+																			
 		cookie.setMaxAge(86400); // set expire time to 24 hours
-		response.addCookie(cookie); // put cookie in response
+		response.addCookie(cookie); 
 	}
 
 	@Transactional

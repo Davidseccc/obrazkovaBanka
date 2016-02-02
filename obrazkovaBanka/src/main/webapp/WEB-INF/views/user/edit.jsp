@@ -22,7 +22,7 @@
 					<li>				<a href="/obrazkovaBanka/user/${user.nickName}/images">Images</a></li>
 					<li>				<a href="/obrazkovaBanka/user/${user.nickName}/comments">Comments</a></li>
 					<c:if test="${loggedInUserRole == 'ROLE_ADMIN'}">
-					<li>				<a href="/obrazkovaBanka/user/show?all">All users</a></li>
+					<li>				<a href="/obrazkovaBanka/user/show?all&start=0&end=100">All users</a></li>
 					<li>				<a href="/obrazkovaBanka/category/show?all">Manage categories</a></li>
 					</c:if>
 				</ul>

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,7 +46,7 @@ public class CommentController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/add/{imageId}", method = RequestMethod.POST)
-	public String rateImage(@PathVariable Integer imageId, @Validated Comment comment, HttpSession session ,BindingResult result) {
+	public String rateImage(@PathVariable Integer imageId, @Validated Comment comment, Model model,HttpSession session ,BindingResult result) {
 		if (result.hasErrors()){
 			logger.info("Comment not inserted. Parameters are not valid");
 			
@@ -56,6 +57,11 @@ public class CommentController {
 			throw new ResourceAccessException("IMAGE NOT FOUND."); 
 		}
 		User user = userService.findUserByNickName(session.getAttribute("loggedInUser").toString());
+		
+		if (!AccesController.checkPermission(session, AccesController.REGISTERED_USERS, user)){
+			model.addAttribute("ERROR", "You do not have permission to do that.");
+			return "error";
+		}
 		
 		comment.setDate(new Date());
 		comment.setImage(image);
