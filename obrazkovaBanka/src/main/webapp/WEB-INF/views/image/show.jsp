@@ -11,15 +11,19 @@
 
 </head>
 <body>
-	<div class="container container-menu">
+		<div class="container container-menu">
 		<div class="header clearfix">
 			<nav>
-			<ul class="nav nav-pills pull-right">
-				<li><a href="../">Home</a></li>
-				<li class="active"><a href="#">Show</a></li>
-				<li><a href="../about.jsp">About</a></li>
-				<li><a href="../contact.jsp">Contact</a></li>
-			</ul>
+				<ul class="nav nav-pills pull-right">
+					<li class="active"><a href="/obrazkovaBanka/">Home</a></li>
+					<li><a href="/obrazkovaBanka/search/?image">Search</a></li>
+					<li><a href="/obrazkovaBanka/about.jsp">About</a></li>
+					<li><a href="/obrazkovaBanka/contact.jsp">Contact</a></li>
+					<c:if test="${!empty loggedInUser}">
+						<li><a href="/obrazkovaBanka/user/${loggedInUser}/edit">User
+								section</a></li>
+					</c:if>
+				</ul>
 			</nav>
 		</div>
 	</div>

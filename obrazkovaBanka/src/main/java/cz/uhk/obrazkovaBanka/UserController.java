@@ -163,15 +163,8 @@ public class UserController {
 		try {
 			User u = userService.findUserByEmail(email);
 			String password = RandomStringUtils.random(10, true, true).toString() ;
-			System.out.println("new password is:" + password);
-			ApplicationContext context = 
-		             new ClassPathXmlApplicationContext("Spring-Mail.xml");
-		    	 
-		    	MailMail mm = (MailMail) context.getBean("mailMail");
-		        mm.sendMail("imagehost@vid91.eu",
-		    		   u.getEmail(),
-		    		   "Your nwe password to Image Upload", 
-		    		   "Your password has been changed\n\n Your new password is:" + password);
+			//System.out.println("new password is:" + password);
+			sendEmailToUser(u, password);
 			userService.changeUserPassword(u, password);
 			redirectAttributes.addFlashAttribute("OK", "Password successfully reset. Check your mailbox...");
 
@@ -184,6 +177,34 @@ public class UserController {
 		return "redirect:/user?login";
 	}
 	
+	@RequestMapping(value="/password/forceReset", params={"id"}, method = RequestMethod.GET)
+	public String forcePasswordReset(@ModelAttribute("id") int id, RedirectAttributes redirectAttributes,Model model, HttpSession session){
+		if (id < 0){
+			redirectAttributes.addFlashAttribute("ERROR", "Invalid user");
+			return "redirect:/user/show?all&start=0&end=100";
+
+		}
+		try {
+			User u = userService.findUser(id);
+			
+			if (!AccesController.checkPermission(session, AccesController.ADMINS_ONLY, u)){
+				model.addAttribute("ERROR", "You do not have permission to do that.");
+				return "error";
+			}
+			
+			String password = RandomStringUtils.random(10, true, true).toString() ;
+			sendEmailToUser(u, password);
+			userService.changeUserPassword(u, password);
+			redirectAttributes.addFlashAttribute("OK", "Password successfully reset.");
+			return "redirect:/user/show?all&start=0&end=100";
+
+			
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("ERROR", "Invalid user");
+			return "redirect:/user/show?all&start=0&end=100";
+		}
+	}
+	
 	@RequestMapping(value = "/{userId}/update", method = RequestMethod.POST)
 	public String updateUser(User user, @PathVariable String userId ,BindingResult result,
 			HttpSession session,final RedirectAttributes redirectAttributes, Model model ){
@@ -192,7 +213,7 @@ public class UserController {
 		if(uname == null || !(uname.toString().equalsIgnoreCase(userId))){
 			
 			redirectAttributes.addFlashAttribute("ERROR","Invalid parameters");
-			System.out.println("Invalid parameters");
+			//System.out.println("Invalid parameters");
 			return "redirect:/user/" + userId +"/edit";
 		}
 		
@@ -286,6 +307,18 @@ public class UserController {
 		userService.updateUser(u);
 		redirectAttributes.addFlashAttribute("OK", "Succesfully saved");
 		return "redirect:show?all";
+	}
+	
+	
+	private void sendEmailToUser(User u, String password) {
+		ApplicationContext context = 
+		         new ClassPathXmlApplicationContext("Spring-Mail.xml");
+			 
+			MailMail mm = (MailMail) context.getBean("mailMail");
+		    mm.sendMail("imagehost@vid91.eu",
+				   u.getEmail(),
+				   "Your nwe password to Image Upload", 
+				   "Your password has been changed\n\n Your new password is:" + password);
 	}
 }
 

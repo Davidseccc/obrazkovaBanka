@@ -18,9 +18,9 @@
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 
 			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
-			<property name="hibernate.connection.url" value="jdbc:mysql://37.221.248.104:3306/imagehosting" />
-			<property name="hibernate.connection.username" value="bar" />
-			<property name="hibernate.connection.password" value="MbxptX2yCLmzfGpB" />
+			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/imagehosting"  />
+			<property name="hibernate.connection.username" value="root" />
+			<property name="hibernate.connection.password" value="3cx5/gbu" />
 		</properties>
 
 	</persistence-unit>

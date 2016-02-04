@@ -41,6 +41,7 @@
 					<th>Email</th>
 					<th>Last visit date</th>
 					<th>User Role <a href="/obrazkovaBanka/role/show?all">Info</a></th>
+					<th>Reset password</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -58,6 +59,7 @@
 											value="${role.id }">${role.name}</option>
 									</c:forEach>
 							</select></td>
+							<td><a href="/obrazkovaBanka/user/password/forceReset?id=${user.id}">Reset password</a></td>
 							<td><button type="submit"
 									class="btn-link glyphicon glyphicon-floppy-saved"></button></td>
 						</tr>

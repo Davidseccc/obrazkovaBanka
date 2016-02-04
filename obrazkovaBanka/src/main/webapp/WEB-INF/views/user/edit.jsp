@@ -69,7 +69,7 @@
 		</div>
 		
 		</div>
-		<ul style="padding-top: 2em" class="list-group">
+		<!-- <ul style="padding-top: 2em" class="list-group">
 		  	<li class="list-group-item">
     			<span class="badge">14</span>
     				<a href="#">Images</a>
@@ -78,7 +78,7 @@
     			<span class="badge">14</span>
     				<a href="#">Comments</a>
   			</li>
-		</ul>
+		</ul> -->
 </div></div>
 </body>
 </html>
