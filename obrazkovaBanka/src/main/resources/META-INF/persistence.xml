@@ -20,7 +20,7 @@
 			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
 			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/imagehosting"  />
 			<property name="hibernate.connection.username" value="root" />
-			<property name="hibernate.connection.password" value="3cx5/gbu" />
+			<property name="hibernate.connection.password" value="" />
 		</properties>
 
 	</persistence-unit>

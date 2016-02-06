@@ -9,7 +9,7 @@ $(function () {
             	
                 $("#uploaded-files").append(
                 		$('<tr/>')
-                		.append($('<input type="text" value="'+ image.name + '">'))
+                		.append($('<td/>').html('<a href="/obrazkovaBanka/image/' + image.hash +'">'+ image.name+'</a>'))
                 		.append($('<td/>').text(image.fileSize))
                 		.append($('<td/>').text(image.fileType))
                 		.append($('<td/>').html('<a href="/obrazkovaBanka/controller/get/' + image.hash +'" class="thumbnail">' 
